@@ -5,6 +5,10 @@ func _ready():
 	var prompts=["Yann", "Minions", "Greatest"]
 	var story= "Once upon a time %s watched the movie %s and he thought it was the %s movie of past two decades!"
 	print(story % prompts) #plug in into story what you havent used from promps
+	
+	$VBoxContainer/DisplayText.text=story % prompts
+	#alternative
+	#get_node("DisplayText").text = story % prompts
 
 	#exercise
 	"""
@@ -18,3 +22,13 @@ func _ready():
 	
 	#story and the prompt should have the same number of arguments! or you'll get an error!
 	
+
+
+func _on_PlayerText_text_entered(new_text): #sent node>signal>on enter to main node script to create this mathod
+	print("Pressed Enter")
+	update_DisplayText(new_text)
+	
+#refactoring
+func update_DisplayText(words):
+	$VBoxContainer/DisplayText.text=words
+	$VBoxContainer/PlayerText.clear()
