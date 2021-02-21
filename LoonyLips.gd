@@ -1,38 +1,42 @@
 extends Control
 
-func _ready():
-	#var person="yan" #alt+down key to move a line down
-	var prompts=["Yann", "Minions", "Greatest"]
-	var story= "Once upon a time %s watched the movie %s and he thought it was the %s movie of past two decades!"
-	print(story % prompts) #plug in into story what you havent used from promps
-	
-	$VBoxContainer/DisplayText.text=story % prompts
-	#alternative
-	#get_node("DisplayText").text = story % prompts
+var player_input=[]
+var prompts=["a Name", "a movie name", "a superlative"]
+var story= "Once upon a time %s watched the movie %s and he thought it was the %s movie of past two decades!"
 
-	#exercise
-	"""
-	prompts=["Inan", "game development", "good", "joy", "singing" , "dancing"]
-	story="One day a boy named %s started learning %s. He was amazed at the fact that he was so %s at it! Filled with %s he started %s and %s!"
-	print(story % prompts)
-	
-	prompts=["Rick", "banking", "stupid", "glamour", "kicking" , "punching"]
-	print(story % prompts)
-	"""
-	
-	#story and the prompt should have the same number of arguments! or you'll get an error!
-	
+onready var PlayerText=$VBoxContainer/HBoxContainer/PlayerText
+onready var DisplayText=$VBoxContainer/DisplayText
+
+func _ready():
+	DisplayText.text="Hello there adventurer! This is the game called loony lips! We are gonna play a word game! "
+	check_story_size()
 
 
 func _on_PlayerText_text_entered(new_text): #sent node>signal>on enter to main node script to create this mathod
-	print("Pressed Enter")
-	update_DisplayText(new_text)
+	add_word_to_player_input()
 	
 #refactoring
 func _on_TextureButton_pressed(): #connected button to script
-	var words = $VBoxContainer/HBoxContainer/PlayerText.text
-	update_DisplayText(words)
+	add_word_to_player_input()
 
-func update_DisplayText(words):
-	$VBoxContainer/DisplayText.text=words
-	$VBoxContainer/HBoxContainer/PlayerText.clear()
+func add_word_to_player_input():
+	player_input.append(PlayerText.text)
+	DisplayText.text=""
+	PlayerText.clear()
+	check_story_size()
+	
+func is_story_ready():
+	return player_input.size() == prompts.size()
+	
+func check_story_size():
+	if is_story_ready():
+		show_story()
+	else:
+		show_prompt()
+		
+func show_story():
+	DisplayText.text = story % player_input
+	
+func show_prompt():
+	DisplayText.text += "Can you give me " + prompts[player_input.size()] + " please"
+
