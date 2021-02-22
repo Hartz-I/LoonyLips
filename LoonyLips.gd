@@ -2,22 +2,22 @@ extends Control
 
 var player_input=[]
 
-var template=[
-	{
-		"prompts":["a Name", "a movie name", "a superlative"],
-		"story": "Once upon a time %s watched the movie %s and he thought it was the %s movie of past two decades!"
-	},
-	{
-		"prompts": ["an animal", "a verb", "an object" , "a verb ending with ing", "a part of a body", "a disaster","a verb", "another verb","another object"],
-		"story": "One day loony %s thought to %s onto a %s. While it was %s it's %s a %s started. Therefore it could not %s and had to %s on the %s."
-	},
-	{
-		"prompts" : ["a rece (ethnicity)", "an adjective","another adjective", "verb ending with 'ed'", "an object", "another object"],
-		"story": "Once upon a time there lived %s on a %s planet. It was so %s that that it %s %s there! Everybody had to bring %s with them all the time!"
-	}
-]
+#var template=[
+#	{
+#		"prompts":["a Name", "a movie name", "a superlative"],
+#		"story": "Once upon a time %s watched the movie %s and he thought it was the %s movie of past two decades!"
+#	},
+#	{
+#		"prompts": ["an animal", "a verb", "an object" , "a verb ending with ing", "a part of a body", "a disaster","a verb", "another verb","another object"],
+#		"story": "One day loony %s thought to %s onto a %s. While it was %s it's %s a %s started. Therefore it could not %s and had to %s on the %s."
+#	},
+#	{
+#		"prompts" : ["a rece (ethnicity)", "an adjective","another adjective", "verb ending with 'ed'", "an object", "another object"],
+#		"story": "Once upon a time there lived %s on a %s planet. It was so %s that that it %s %s there! Everybody had to bring %s with them all the time!"
+#	}
+#]
 
-var current_story
+var current_story = {}
 
 onready var PlayerText=$VBoxContainer/HBoxContainer/PlayerText
 onready var DisplayText=$VBoxContainer/DisplayText
@@ -30,7 +30,12 @@ func _ready():
 	
 func set_current_story():
 	randomize()
-	current_story = template[randi() % template.size()]
+#	current_story = template[randi() % template.size
+	var stories = $StoryBook.get_child_count()
+	var selected_story = randi() % stories
+	current_story.prompts = $StoryBook.get_child(selected_story).prompts
+	current_story.story = $StoryBook.get_child(selected_story).story
+	
 
 
 func _on_PlayerText_text_entered(new_text): #sent node>signal>on enter to main node script to create this mathod
@@ -44,9 +49,9 @@ func _on_TextureButton_pressed(): #connected button to script
 		add_word_to_player_input()
 
 func add_word_to_player_input():
-	player_input.append(PlayerText.text)
-	DisplayText.text=""
-	PlayerText.grab_focus()
+	player_input.append(PlayerText.text) #main work
+	DisplayText.text="" #need for resetting text
+	PlayerText.grab_focus() #add focus on player input each time new entry given
 	PlayerText.clear()
 	check_story_size()
 	
