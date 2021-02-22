@@ -36,6 +36,7 @@ func set_current_story():
 	current_story.prompts = $StoryBook.get_child(selected_story).prompts
 	current_story.story = $StoryBook.get_child(selected_story).story
 	
+#	another way of doing things would be to use a json file. but I don't like it so we wont do it
 
 
 func _on_PlayerText_text_entered(new_text): #sent node>signal>on enter to main node script to create this mathod
