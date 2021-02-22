@@ -9,5 +9,10 @@ and thats it!
 
 ### This is my first GODOT guided project. I'll be practicing more in the future! Hope our paths may cross soon with an original!
 
-# Best wishes! 
+# How to Play:
+- Download the "LoonyLips.exe" file from the rood folder
+- Open it
+- Do as the game tells you to do
+
+# Best Wishes!
 # - Hartz
